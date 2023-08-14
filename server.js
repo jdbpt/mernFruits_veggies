@@ -11,7 +11,7 @@ const veggies = require('./models/veggies');
 //objects, arrays, variables
 const port = 3000;
 
-//app.set
+//app.set  (jsx seems not to work as a view engine/template, so app does not run)
 app.set('view engine', 'jsx');
 app.engine('jsx', require('jsx-view-engine').createEngine());
 
@@ -25,6 +25,11 @@ app.get('/fruits/', (req, res) => {
 
 app.get('/veggies/', (req, res) => {
     res.send(veggies);
+});
+
+//adding a new fruit
+app.get('/fruits/new', (req, res) => {
+    res.render('New');
 });
 
 //show route (show routes use a get request)
