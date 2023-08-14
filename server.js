@@ -12,15 +12,35 @@ const veggies = require('./models/veggies');
 const port = 3000;
 
 //app.set  (jsx seems not to work as a view engine/template, so app does not run)
+//debugging resource: https://stackoverflow.com/questions/29635162/calling-react-view-from-express
 app.set('view engine', 'jsx');
 app.engine('jsx', require('jsx-view-engine').createEngine());
 
+//middleware app.use
+app.use((req, res, next) => {
+    console.log('I run for all routes');
+    next();
+});
+
+//view body of a post request
+app.use(express.urlencoded({extended:false}));
 
 //routes
 app.get('/fruits/', (req, res) => {
     res.render('Index', {
         fruits: fruits
     });
+});
+
+app.post('/fruits', (req, res)=>{
+    if (req.body.readyToEat === 'on') {//if checked the body is on
+        req.body.readyToEat = true;
+        
+    } else {//if not checked the body is undefined
+        req.body.readyToEat = false;   
+    }
+    fruits.push(req.body);
+    res.redirect('/fruits');
 });
 
 app.get('/veggies/', (req, res) => {
