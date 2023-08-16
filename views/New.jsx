@@ -4,7 +4,7 @@ class New extends React.Component {
     render() {
         return (
             <div>
-                <h1>New Page</h1>
+                <h1>Create Fruits Page</h1>
                 {/* action= route, method=HTTP verb */}
                 <form action='/fruits' method="POST">
                     Name: <input type='text' name="name"/><br/>
