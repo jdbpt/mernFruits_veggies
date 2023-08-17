@@ -7,14 +7,16 @@ class Index extends React.Component {
       <div>
         <h1>Fruits Index Page</h1>
         <nav>
-          <a href="/fruits/new">Create a New Fruit</a>
+          <p><a href="/">Home</a></p>
+          <p><a href="/fruits/new">Create a New Fruit</a></p>
         </nav>
         <ul>
-            {fruits.map((fruit, i)=>{
+            {fruits?.map((fruit, i)=>{
                 return(
-                  <li>
+                  <li key={i}>
                     The{' '}
-                    <a href={`/fruits/${i}`}>{fruit.name}</a>
+                    {/**Make sure it is calling fruit.id */}
+                    <a href={`/fruits/${ fruit.id }`}>{fruit.name}</a>
                     {' '}
                     is {fruit.color}<br/>
                     {fruit.readyToEat ? 'It is ready to eat' : 'Nope, it is not good to eat'}
