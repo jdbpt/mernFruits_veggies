@@ -47,12 +47,18 @@ app.get('/fruits', async (req, res) => {
     // });
     // res.render('fruits/Index');
     // console.log(Fruit);
+
     await Fruit.find({}).then((allFruits)=>{
         res.render('Index', {
             fruits: allFruits
         });
         // console.log(allFruits);
+    }).catch (function (err) {
+        console.log(err);
+        res.render("ErrorPage", {error: err})
     });
+    
+    
 });
 
 app.post('/fruits', async (req, res)=>{
