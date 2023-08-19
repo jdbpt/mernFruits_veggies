@@ -1,0 +1,3 @@
+Assignment for express-fruits app:
+Create a veggie model that will create a veggie database in MongoDB (like your fruits model)
+Create a delete route along with a delete method that should delete a fruit/veggie from the database

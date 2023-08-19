@@ -10,6 +10,9 @@ class Show extends React.Component {
                 <nav>
                     <a href="/fruits">Main Fruits Page</a>
                 </nav>
+                <form action={`/fruits/${fruit.id}`} method="POST">
+                    <input type="submit" name='' value="Delete Fruit"/>   
+                </form>
             </div>
 
         );

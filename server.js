@@ -1,13 +1,17 @@
 //initializers
 const dotenv = require('dotenv').config();
 const { configDotenv, config } = require('dotenv');
-
-const mongoose = require('mongoose');
-const Fruit = require('./models/Fruit.js');
 const express = require('express');
+const mongoose = require('mongoose');
+
+const Fruit = require('./models/Fruit.js');
+const Veggie = require('./models/Veggie.js');
+
+
 const fruits = require('./models/fruits');
 const veggies = require('./models/veggies');
 //Fruit.insertMany(fruits); //inserted alot of these multiple times, so this worked
+//Veggie.insertMany(veggies);
 const app = express();
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -39,8 +43,10 @@ app.use(express.urlencoded({extended:false}));
 
 //routes
 app.get('/', (req, res)=>{
-    res.send("<h1>Explore Veggies and See/Add fruits</h1><nav><a href='/fruits'>Main Fruits Page</a></nav>")
+    res.send("<h1>Explore Veggies and See/Add fruits</h1><nav><p><a href='/fruits'>Main Fruits Page</a></p><p><a href='/veggies'>Main Veggies Page</a></p></nav>")
 });
+
+//fruits routes**************************************
 app.get('/fruits', async (req, res) => {
     // res.render('Index', {
     //     fruits: fruits
@@ -49,7 +55,7 @@ app.get('/fruits', async (req, res) => {
     // console.log(Fruit);
 
     await Fruit.find({}).then((allFruits)=>{
-        res.render('Index', {
+        res.render('display_fruits/Index', {
             fruits: allFruits
         });
         // console.log(allFruits);
@@ -77,10 +83,21 @@ app.post('/fruits', async (req, res)=>{
     console.log(fruits);//error checking
 });
 
+app.post('/fruits/:id', async (req, res) => {
+  
+    await Fruit.findByIdAndDelete(req.params.id).then(()=>{
+        console.log("deleted");//error checking
+        res.redirect('/fruits');
+    }).catch((err)=>{
+        console.log(err);
+    })
+    // res.send("Deleted request recieved")
+    //console.log(fruits);//error checking
+});
 
 //adding a new fruit
 app.get('/fruits/new', async (req, res) => {
-    res.render('New');
+    res.render('display_fruits/New');
 });
 
 //show route (show routes use a get request)
@@ -89,20 +106,74 @@ app.get('/fruits/:id', async (req, res) => {//added async
 //         fruit: fruits[req.params.indexOfFruitsArray]//corresponds to variable in Show file 
 // })
 await Fruit.findById(req.params.id).then((foundFruit)=>{//deleted err
-    res.render('Show', {
+    res.render('display_fruits/Show', {
         fruit: foundFruit
     });
 });
 });
 
-    //pair similar routes near each other
-app.get('/veggies/', (req, res) => {
-    res.send(veggies);
+//veggies routes**************************************
+app.get('/veggies', async (req, res) => {
+    // res.render('Index', {
+    //     veggies: veggies
+    // });
+    // res.render('veggies/Index');
+    // console.log(veggie);
+
+    await Veggie.find({}).then((allVeggies)=>{
+        res.render('display_veggies/Index', {
+            veggies: allVeggies
+        });
+        // console.log(allVeggies);
+    }).catch (function (err) {
+        console.log(err);
+        res.render("ErrorPage", {error: err})
+    });  
 });
 
-app.get('/veggies/:indexOfVeggiesArray', (req, res) => {
-    res.send(veggies[req.params.indexOfVeggiesArray]);
+app.post('/veggies', async (req, res)=>{
+    if (req.body.readyToEat === 'on') {//if checked the body is on
+        req.body.readyToEat = true;
+        
+    } else {//if not checked the body is undefined
+        req.body.readyToEat = false;   
+    }
+    // veggies.push(req.body);
+    // res.redirect('/veggies');
+
+    await Veggie.create(req.body).then( (error, createdveggie)=>{
+        res.redirect('/veggies');
+    });
+    console.log(veggies);//error checking
 });
+
+
+//adding a new veggie
+app.get('/veggies/new', async (req, res) => {
+    res.render('display_veggies/New');
+});
+
+//show route (show routes use a get request)
+app.get('/veggies/:id', async (req, res) => {//added async
+//     res.render('Show', {//second param must be an object
+//         veggie: veggies[req.params.indexOfveggiesArray]//corresponds to variable in Show file 
+// })
+await Veggie.findById(req.params.id).then((foundVeggie)=>{//deleted err
+    res.render('display_veggies/Show', {
+        veggie: foundVeggie
+    });
+});
+});
+
+
+    //pair similar routes near each other
+// app.get('/veggies/', (req, res) => {
+//     res.send(veggies);
+// });
+
+// app.get('/veggies/:indexOfVeggiesArray', (req, res) => {
+//     res.send(veggies[req.params.indexOfVeggiesArray]);
+// });
 
 //app listen
 app.listen(port, () => {
