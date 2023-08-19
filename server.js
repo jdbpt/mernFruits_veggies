@@ -43,7 +43,7 @@ app.use(express.urlencoded({extended:false}));
 
 //routes
 app.get('/', (req, res)=>{
-    res.send("<h1>Explore Veggies and See/Add fruits</h1><nav><p><a href='/fruits'>Main Fruits Page</a></p><p><a href='/veggies'>Main Veggies Page</a></p></nav>")
+    res.render("Home");
 });
 
 //fruits routes**************************************
