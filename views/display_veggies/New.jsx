@@ -12,7 +12,7 @@ class New extends React.Component {
                     Is Ready To Eat: <input type="checkbox" name="readyToEat"/><br/>
                     <input type="submit" name='' value="Create Veggie"/>   
                 </form>
-                <nav>
+                <nav style={{padding: "10px"}}>
                     <a href="/veggies">Main Veggies Page</a>
                 </nav>
             </div>

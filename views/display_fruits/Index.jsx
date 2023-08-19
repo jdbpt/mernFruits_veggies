@@ -6,7 +6,7 @@ class Index extends React.Component {
     return (
       <div>
         <h1>Fruits Index Page</h1>
-        <nav>
+        <nav style={{padding: "10px"}}>
           <p><a href="/">Home</a></p>
           <p><a href="/fruits/new">Create a New Fruit</a></p>
         </nav>

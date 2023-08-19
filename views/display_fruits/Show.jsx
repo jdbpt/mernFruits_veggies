@@ -7,7 +7,7 @@ class Show extends React.Component {
                 <h1> Fruits Show Page </h1>
                 The {fruit.name} is {fruit.color} and
                 {fruit.readyToEat ? ' It is ready to eat' : ' Nope, it is not good to eat'}
-                <nav>
+                <nav style={{padding: "10px 0px 10px 0px"}}>
                     <a href="/fruits">Main Fruits Page</a>
                 </nav>
                 <form action={`/fruits/${fruit.id}`} method="POST">

@@ -5,7 +5,7 @@ class Home extends Component {
         return (
             <div>
                 <h1>Explore Veggies and See/Add fruits</h1>
-                <nav>
+                <nav style={{padding: "10px"}}>
                     <p><a href='/fruits'>Main Fruits Page</a></p>
                     <p><a href='/veggies'>Main Veggies Page</a></p>
                 </nav>
