@@ -4,13 +4,15 @@ const { configDotenv, config } = require('dotenv');
 const express = require('express');
 const mongoose = require('mongoose');
 
+//Fruit and Veggie schema
 const Fruit = require('./models/Fruit.js');
 const Veggie = require('./models/Veggie.js');
 
-
+//frits and veggies arrays
 const fruits = require('./models/fruits');
 const veggies = require('./models/veggies');
-//Fruit.insertMany(fruits); //inserted alot of these multiple times, so this worked
+//initial calls to insert fruits/veggies arrrays in the code
+//Fruit.insertMany(fruits); 
 //Veggie.insertMany(veggies);
 const app = express();
 
@@ -49,11 +51,6 @@ app.get('/', (req, res) => {
 
 //fruits routes**************************************
 app.get('/fruits', async (req, res) => {
-    // res.render('Index', {
-    //     fruits: fruits
-    // });
-    // res.render('fruits/Index');
-    // console.log(Fruit);
 
     await Fruit.find({}).then((allFruits) => {
         res.render('display_fruits/Index', {
@@ -94,9 +91,7 @@ app.get('/fruits/new', async (req, res) => {
 
 //show route (show routes use a get request)
 app.get('/fruits/:id', async (req, res) => {//added async
-    //     res.render('Show', {//second param must be an object
-    //         fruit: fruits[req.params.indexOfFruitsArray]//corresponds to variable in Show file 
-    // })
+   
     await Fruit.findById(req.params.id).then((foundFruit) => {//deleted err
         res.render('display_fruits/Show', {
             fruit: foundFruit
@@ -107,7 +102,8 @@ app.get('/fruits/:id', async (req, res) => {//added async
     });
 });
 
-//delete a fruit
+//delete a fruit in show route
+//note without added method-override dependency, delete fxn would need to be post route
 app.post('/fruits/:id', async (req, res) => {
 
     await Fruit.findByIdAndDelete(req.params.id).then(() => {
@@ -120,13 +116,12 @@ app.post('/fruits/:id', async (req, res) => {
 
 });
 
+//delete fruit in main fruits page (with method-override dependency)
+
+
+
 //veggies routes**************************************
 app.get('/veggies', async (req, res) => {
-    // res.render('Index', {
-    //     veggies: veggies
-    // });
-    // res.render('veggies/Index');
-    // console.log(veggie);
 
     await Veggie.find({}).then((allVeggies) => {
         res.render('display_veggies/Index', {
@@ -147,8 +142,6 @@ app.post('/veggies', async (req, res) => {
     } else {//if not checked the body is undefined
         req.body.readyToEat = false;
     }
-    // veggies.push(req.body);
-    // res.redirect('/veggies');
 
     await Veggie.create(req.body).then((error, createdveggie) => {
         res.redirect('/veggies');
